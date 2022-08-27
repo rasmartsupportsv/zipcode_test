@@ -47,9 +47,9 @@ class ZipCodeController extends Controller
      * @param  \App\Models\ZipCode  $zipCode
      * @return \Illuminate\Http\Response
      */
-    public function show($code)
+    public function show($zip_code)
     {
-        return new ZipCodeCollection(ZipCode::findOrFail($code));
+        return new ZipCodeCollection(ZipCode::findOrFail($zip_code));
     }
 
     /**

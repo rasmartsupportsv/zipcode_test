@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('zip-codes/{code}', 'App\Http\Controllers\ZipCodeController@show')->name('zipcode.show');
+Route::get('zip-codes/{zip_code}', 'App\Http\Controllers\ZipCodeController@show')->name('zipcode.show');
