@@ -6,6 +6,9 @@ use App\Http\Requests\StoreZipCodeRequest;
 use App\Http\Requests\UpdateZipCodeRequest;
 use App\Models\ZipCode;
 use  App\Http\Resources\ZipCodeCollection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+
 
 class ZipCodeController extends Controller
 {
@@ -17,6 +20,27 @@ class ZipCodeController extends Controller
     public function index()
     {
         //
+
+        $settlements = DB::table('codezip')
+         ->where('d_codigo',76000)
+            ->select('id_asenta_cpcons','d_asenta', 'd_zona','d_tipo_asenta')
+            ->get();
+
+        $array = [];
+
+        foreach ($settlements as $key => $value) {
+            $array[]=[
+                'key'=>intval($value->id_asenta_cpcons),
+                'name'=>strtoupper($value->d_asenta),
+                'zone_type'=>strtoupper($value->d_zona),
+                'settlement_type'=>[
+                    'name'=>$value->d_tipo_asenta,
+                ]
+            ];
+        }
+
+
+        return response()->json($array);
         
     }
 
@@ -49,7 +73,13 @@ class ZipCodeController extends Controller
      */
     public function show($zip_code)
     {
-        return new ZipCodeCollection(ZipCode::findOrFail($zip_code));
+        $ZipCode = Cache::remember($zip_code, 1000, function() use ($zip_code) {
+
+            return new ZipCodeCollection(ZipCode::where('d_codigo',$zip_code)->first());
+        });
+
+        return $ZipCode;
+
     }
 
     /**

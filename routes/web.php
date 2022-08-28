@@ -19,4 +19,3 @@ Route::get('/', function () {
 
 
 
-Route::get('/', 'App\Http\Controllers\ZipCodeController@index')->name('zipcode.index');

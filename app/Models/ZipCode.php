@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ZipCode extends Model
 {
     use HasFactory;
-    protected $table = 'codes';
-    protected $primaryKey = 'd_codigo';
+    protected $table = 'codezip';
 }
